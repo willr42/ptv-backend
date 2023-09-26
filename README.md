@@ -1,3 +1,5 @@
+API definition: [Swagger](https://timetableapi.ptv.vic.gov.au/swagger/ui/index)
+
 ## Dependencies
 
 ### Dev only

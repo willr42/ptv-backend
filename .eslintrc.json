@@ -8,5 +8,5 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "rules": {}
+    "rules": { "@typescript-eslint/consistent-type-definitions": "off" }
 }

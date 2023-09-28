@@ -1,30 +1,5 @@
 import crypto from 'node:crypto';
-
-type PtvApiResponse<T> = Record<
-    string,
-    {
-        data: T;
-        status: {
-            version: string;
-            health: number;
-        };
-    }
->;
-
-type RouteInfo = {
-    route_service_status: {
-        description: string;
-        timestamp: string;
-    };
-    route_type: number;
-    route_id: number;
-    route_name: string;
-    route_number: string;
-    route_gtfs_id: string;
-    geopath: any[]; // You can replace 'any' with the specific type if you know the structure
-};
-
-type PtvRouteResponse = PtvApiResponse<RouteInfo>;
+import { type PtvApiResponse, type RouteInfo } from './apitypes.mts';
 
 /**
  * Wraps the request url with the HMAC signature & parameters as required by the PTV api.

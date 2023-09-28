@@ -37,10 +37,20 @@ async function customAuthedFetch<T>(url: string) {
     return await customJsonFetch<T>(authedUrl);
 }
 
+type RouteTypes = 0 | 1 | 2 | 3 | 4;
+
 const apiHandler = {
     getRoutes: async function getRoutes() {
         const routeUrl = '/v3/routes';
-        return await customAuthedFetch<PtvRouteResponse>(routeUrl);
+        return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+    },
+
+    getRoute: async function getRoute(routeId: string, routeType?: RouteTypes) {
+        let routeUrl = `/v3/routes/${routeId}`;
+        if (routeType !== undefined) {
+            routeUrl = routeUrl + `/route_type/${routeType}`;
+        }
+        return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
     },
 };
 

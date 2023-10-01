@@ -18,6 +18,14 @@ type PtvApiResponse<T> = {
     status: PtvApiStatus;
 } & Record<PtvApiResources, T>;
 
+const possibleRouteTypes = {
+    train: '0',
+    tram: '1',
+    bus: '2',
+    vline: '3',
+    nightBus: '4',
+};
+
 type RouteTypesInfo = {
     route_type_name: string;
     route_type: number;
@@ -82,3 +90,5 @@ export type {
     StopInfo,
     DepartureInfo,
 };
+
+export { possibleRouteTypes };

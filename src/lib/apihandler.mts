@@ -3,6 +3,8 @@ import {
     type PtvApiResponse,
     type RouteTypesInfo,
     type RouteInfo,
+    type DepartureInfo,
+    type StopInfo,
 } from './apitypes.mts';
 
 /**
@@ -63,10 +65,25 @@ async function getRoute(routeId: string, routeType?: RouteTypes) {
     return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
 }
 
+async function getAllStops(routeId: string, routeType: RouteTypes) {
+    const routeUrl = `/v3/stops/route/${routeId}/route_type/${routeType}`;
+    return await customAuthedFetch<PtvApiResponse<StopInfo[]>>(routeUrl);
+}
+
+async function getDeparturesForAllRoutes(
+    routeType: RouteTypes,
+    stopId: string
+) {
+    const routeUrl = `/v3/departures/route_type/${routeType}/stop/${stopId}`;
+    return await customAuthedFetch<PtvApiResponse<DepartureInfo>>(routeUrl);
+}
+
 const apiHandler = {
     getRouteTypes,
     getRoutes,
     getRoute,
+    getAllStops,
+    getDeparturesForAllRoutes,
 };
 
 export default apiHandler;

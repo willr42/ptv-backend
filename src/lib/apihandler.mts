@@ -70,11 +70,26 @@ async function getAllStops(routeId: string, routeType: RouteTypes) {
     return await customAuthedFetch<PtvApiResponse<StopInfo[]>>(routeUrl);
 }
 
+/**
+ * Service departures from the specified stop for all routes of the specified route type.
+ */
 async function getDeparturesForAllRoutes(
     routeType: RouteTypes,
     stopId: string
 ) {
     const routeUrl = `/v3/departures/route_type/${routeType}/stop/${stopId}`;
+    return await customAuthedFetch<PtvApiResponse<DepartureInfo>>(routeUrl);
+}
+
+/**
+ * Service departures from the specified stop for the specified route (and route type).
+ */
+async function getDeparturesForSpecificRoute(
+    routeType: RouteTypes,
+    stopId: string,
+    routeId: string
+) {
+    const routeUrl = `/v3/departures/route_type/${routeType}/stop/${stopId}/route/${routeId}`;
     return await customAuthedFetch<PtvApiResponse<DepartureInfo>>(routeUrl);
 }
 
@@ -84,6 +99,7 @@ const apiHandler = {
     getRoute,
     getAllStops,
     getDeparturesForAllRoutes,
+    getDeparturesForSpecificRoute,
 };
 
 export default apiHandler;

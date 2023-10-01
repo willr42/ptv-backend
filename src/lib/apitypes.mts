@@ -7,11 +7,21 @@ type PtvApiStatus = {
 };
 
 /**
+ * Type that represents all possible resources we can fetch from API
+ */
+type PtvApiResources = 'routes' | 'stops' | 'route_types';
+
+/**
  * Dynamic type for all API responses
  */
 type PtvApiResponse<T> = {
     status: PtvApiStatus;
-} & Record<'routes' | 'stops', T>;
+} & Record<PtvApiResources, T>;
+
+type RouteTypesInfo = {
+    route_type_name: string;
+    route_type: number;
+};
 
 /**
  * Type for responses returned by `/v3/routes`
@@ -50,4 +60,4 @@ type StopInfo = {
     };
 };
 
-export type { PtvApiResponse, RouteInfo, StopInfo };
+export type { PtvApiResponse, RouteInfo, RouteTypesInfo, StopInfo };

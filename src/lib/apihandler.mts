@@ -1,5 +1,9 @@
 import crypto from 'node:crypto';
-import { type PtvApiResponse, type RouteInfo } from './apitypes.mts';
+import {
+    type PtvApiResponse,
+    type RouteTypesInfo,
+    type RouteInfo,
+} from './apitypes.mts';
 
 /**
  * Wraps the request url with the HMAC signature & parameters as required by the PTV api.
@@ -37,21 +41,32 @@ async function customAuthedFetch<T>(url: string) {
     return await customJsonFetch<T>(authedUrl);
 }
 
+async function getRouteTypes() {
+    const routeTypesUrl = '/v3/route_types';
+    return await customAuthedFetch<PtvApiResponse<RouteTypesInfo[]>>(
+        routeTypesUrl
+    );
+}
+
+async function getRoutes() {
+    const routeUrl = '/v3/routes';
+    return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+}
+
 type RouteTypes = 0 | 1 | 2 | 3 | 4;
 
-const apiHandler = {
-    getRoutes: async function getRoutes() {
-        const routeUrl = '/v3/routes';
-        return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
-    },
+async function getRoute(routeId: string, routeType?: RouteTypes) {
+    let routeUrl = `/v3/routes/${routeId}`;
+    if (routeType !== undefined) {
+        routeUrl = routeUrl + `/route_type/${routeType}`;
+    }
+    return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
+}
 
-    getRoute: async function getRoute(routeId: string, routeType?: RouteTypes) {
-        let routeUrl = `/v3/routes/${routeId}`;
-        if (routeType !== undefined) {
-            routeUrl = routeUrl + `/route_type/${routeType}`;
-        }
-        return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
-    },
+const apiHandler = {
+    getRouteTypes,
+    getRoutes,
+    getRoute,
 };
 
 export default apiHandler;

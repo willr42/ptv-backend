@@ -9,7 +9,7 @@ type PtvApiStatus = {
 /**
  * Type that represents all possible resources we can fetch from API
  */
-type PtvApiResources = 'routes' | 'stops' | 'route_types';
+type PtvApiResources = 'routes' | 'stops' | 'route_types' | 'departures';
 
 /**
  * Dynamic type for all API responses

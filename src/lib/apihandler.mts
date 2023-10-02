@@ -74,6 +74,29 @@ async function getRoute(routeId: string, routeType?: string) {
     return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
 }
 
+async function searchRouteByName(routeName: string, routeType?: string) {
+    const routeUrl = createApiUrl(`/v3/routes`);
+
+    routeUrl.searchParams.append('route_name', routeName);
+
+    if (routeType != null) {
+        routeUrl.searchParams.append('route_type', routeType);
+    }
+
+    return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+}
+
+async function getRouteByNumber(routeNumber: string) {
+    const routeUrl = createApiUrl('/v3/routes');
+    const res = await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+    if (res != null) {
+        const foundRoute = res.routes.filter(
+            (route) => route.route_number === routeNumber
+        );
+        return foundRoute[0];
+    }
+}
+
 async function getAllStops(routeId: string, routeType: string) {
     const routeUrl = createApiUrl(
         `/v3/stops/route/${routeId}/route_type/${routeType}`
@@ -109,6 +132,8 @@ const apiHandler = {
     getRouteTypes,
     getRoutes,
     getRoute,
+    searchRouteByName,
+    getRouteByNumber,
     getAllStops,
     getDeparturesForAllRoutes,
     getDeparturesForSpecificRoute,

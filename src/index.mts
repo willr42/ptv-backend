@@ -15,14 +15,10 @@ app.get('/', (req, res) => {
             {
                 routeNumber: '70',
                 minutes: ['1', '10'],
-                disruptions:
-                    'Lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
             },
             {
                 routeNumber: '75',
                 minutes: ['5', '10'],
-                disruptions:
-                    'Lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
             },
         ],
     });
@@ -33,5 +29,3 @@ app.listen(config.serverPort, () => {
 });
 
 const allOutstandingDepartures = await getNextDepartures(config.watchedRoutes);
-
-console.log('Departures: ', allOutstandingDepartures);

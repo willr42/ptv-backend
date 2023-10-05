@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import config from './config.mts';
-import { collateDepartures } from './data.mts';
+import { getNextDepartures } from './data.mts';
 
 const app = express();
 app.set('view engine', 'pug');
@@ -32,5 +32,6 @@ app.listen(config.serverPort, () => {
     console.log(`✅ listening on port ${config.serverPort}`);
 });
 
-const departures = await collateDepartures(config.watchedRoutes);
-console.log(departures);
+const allOutstandingDepartures = await getNextDepartures(config.watchedRoutes);
+
+console.log('Departures: ', allOutstandingDepartures);

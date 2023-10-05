@@ -2,7 +2,7 @@
 // Fetch departures.
 
 import apiHandler from './lib/apihandler.mts';
-import { type DepartureInfo } from './lib/apitypes.mts';
+import { type ApiDepartureData } from './lib/apitypes.mts';
 
 export type WatchedRoute = {
     routeId: string;
@@ -12,11 +12,19 @@ export type WatchedRoute = {
     stopId: string;
 };
 
-export async function collateDepartures(watchedRoutes: WatchedRoute[]) {
-    const departureList: DepartureInfo[] = [];
+type ProcessedDepartureData = {
+    scheduledDeparture: Date;
+    atPlatform: boolean;
+};
+
+export async function getNextDepartures(watchedRoutes: WatchedRoute[]) {
+    const nextThreeDepartures = await collateDepartures(watchedRoutes);
+}
+
+async function collateDepartures(watchedRoutes: WatchedRoute[]) {
+    const departureList: ApiDepartureData[] = [];
 
     for await (const element of watchedRoutes) {
-        console.log('For route: ', element);
         if (element == null) {
             continue;
         }
@@ -38,25 +46,39 @@ export async function collateDepartures(watchedRoutes: WatchedRoute[]) {
         return departureDate.getTime() > now.getTime();
     });
 
-    return buildDeparturesObject(removeFinishedTrips);
-}
+    const departurePerRoute: Record<string, ProcessedDepartureData[]> = {};
 
-/**
- * Sort each department by its routeId as a key
- */
-function buildDeparturesObject(departureList: DepartureInfo[]) {
-    const departurePerRoute: Record<string, DepartureInfo[]> = {};
-
-    for (const departure of departureList) {
+    for (const departure of removeFinishedTrips) {
         const routeId = departure.route_id.toString();
         if (departurePerRoute[routeId] == null) {
             departurePerRoute[routeId] = [];
-            departurePerRoute[routeId]?.push(departure);
-        } else {
-            departurePerRoute[routeId]?.push(departure);
+        }
+
+        const departureData: ProcessedDepartureData = {
+            scheduledDeparture: new Date(departure.scheduled_departure_utc),
+            atPlatform: departure.at_platform,
+        };
+        departurePerRoute[routeId]?.push(departureData);
+    }
+
+    const nextThreeDepartures: Record<string, ProcessedDepartureData[]> = {};
+
+    for (const route in departurePerRoute) {
+        if (Object.prototype.hasOwnProperty.call(departurePerRoute, route)) {
+            const departureArray = departurePerRoute[route];
+
+            if (departureArray == null) {
+                continue;
+            }
+
+            if (nextThreeDepartures[route] == null) {
+                nextThreeDepartures[route] = [];
+            }
+            nextThreeDepartures[route] = departureArray?.slice(0, 3);
         }
     }
-    return departurePerRoute;
+
+    return nextThreeDepartures;
 }
 
 async function fetchDepartures(watchedRoute: WatchedRoute) {

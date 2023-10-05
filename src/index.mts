@@ -33,4 +33,4 @@ app.listen(config.serverPort, () => {
 });
 
 const departures = await collateDepartures(config.watchedRoutes);
-console.log(departures.length);
+console.log(departures);

@@ -12,24 +12,15 @@ export type WatchedRoute = {
     stopId: string;
 };
 
-async function fetchDepartures(watchedRoute: WatchedRoute) {
-    return await apiHandler.getDeparturesForSpecificRoute(
-        watchedRoute.routeType,
-        watchedRoute.stopId,
-        watchedRoute.routeId,
-        watchedRoute.directionOfInterest
-    );
-}
-
 export async function collateDepartures(watchedRoutes: WatchedRoute[]) {
     const departureList: DepartureInfo[] = [];
 
     for await (const element of watchedRoutes) {
+        console.log('For route: ', element);
         if (element == null) {
             continue;
         }
         const res = await fetchDepartures(element);
-        console.log(res?.departures);
         if (res == null) {
             continue;
         }
@@ -41,5 +32,38 @@ export async function collateDepartures(watchedRoutes: WatchedRoute[]) {
         departureList.push(...routeDepartures);
     }
 
-    return departureList;
+    const removeFinishedTrips = departureList.filter((departure) => {
+        const departureDate = new Date(departure.scheduled_departure_utc);
+        const now = new Date();
+        return departureDate.getTime() > now.getTime();
+    });
+
+    return buildDeparturesObject(removeFinishedTrips);
+}
+
+/**
+ * Sort each department by its routeId as a key
+ */
+function buildDeparturesObject(departureList: DepartureInfo[]) {
+    const departurePerRoute: Record<string, DepartureInfo[]> = {};
+
+    for (const departure of departureList) {
+        const routeId = departure.route_id.toString();
+        if (departurePerRoute[routeId] == null) {
+            departurePerRoute[routeId] = [];
+            departurePerRoute[routeId]?.push(departure);
+        } else {
+            departurePerRoute[routeId]?.push(departure);
+        }
+    }
+    return departurePerRoute;
+}
+
+async function fetchDepartures(watchedRoute: WatchedRoute) {
+    return await apiHandler.getDeparturesForSpecificRoute(
+        watchedRoute.routeType,
+        watchedRoute.stopId,
+        watchedRoute.routeId,
+        watchedRoute.directionOfInterest
+    );
 }

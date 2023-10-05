@@ -83,12 +83,21 @@ type DepartureInfo = {
     departure_sequence: number;
 };
 
+type DirectionInfo = {
+    route_direction_description: string;
+    direction_id: number;
+    direction_name: string;
+    route_id: number;
+    route_type: number;
+};
+
 export type {
     PtvApiResponse,
     RouteInfo,
     RouteTypesInfo,
     StopInfo,
     DepartureInfo,
+    DirectionInfo,
 };
 
 export { possibleRouteTypes };

@@ -9,6 +9,7 @@ declare global {
         interface ProcessEnv {
             API_DEV_ID: string;
             API_KEY: string;
+            PORT: number;
         }
     }
 }

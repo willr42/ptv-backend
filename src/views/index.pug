@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Tram Tracker
+    script(src="https://unpkg.com/htmx.org@1.9.6", integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni", crossorigin="anonymous")
+    link(rel="stylesheet", href="style.css")
+    link(rel="icon", href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚋</text></svg>")
+  body
+    main
+      .card-grid
+          each tram in tramData
+            .card
+              h2 Tram
+              p.route-number= tram.routeNumber
+              ul
+                each minute in tram.minutes
+                  - var fillStyle = minute === "1" || minute === "now" ? "green" : "white"
+                  li
+                    svg(width="20px", height="20px", viewBox="0 0 24 24" style=`fill:${fillStyle};`)
+                      path(d="M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21ZM17.737,8.824a1,1,0,0,1-.061,1.413l-6,5.5a1,1,0,0,1-1.383-.03l-3-3a1,1,0,0,1,1.415-1.414l2.323,2.323,5.294-4.853A1,1,0,0,1,17.737,8.824Z")
+                    = minute + " minutes"
+              hr
+              p.disruptions= tram.disruptions

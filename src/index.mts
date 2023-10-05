@@ -58,6 +58,6 @@ app.get('/', (req, res) => {
     // res.sendFile(dirname + 'frontend/index.html');
 });
 
-app.listen(3000, () => {
-    console.log(`✅ listening on port ${3000}`);
+app.listen(config.serverPort, () => {
+    console.log(`✅ listening on port ${config.serverPort}`);
 });

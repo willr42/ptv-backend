@@ -134,5 +134,10 @@ ul {
 
 ul li {
     display: flex;
+    align-items: center;
     margin-left: 0.5rem;
+}
+
+ul li svg {
+    margin-right: 5px;
 }

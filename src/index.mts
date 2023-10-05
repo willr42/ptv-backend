@@ -3,9 +3,9 @@ import express from 'express';
 import config from './config.mts';
 import apiHandler from './lib/apihandler.mjs';
 
-const watchedRoutes = await fetchInitialRouteData();
+// const watchedRoutes = await fetchInitialRouteData();
 
-console.log(watchedRoutes);
+// console.log(watchedRoutes);
 
 const app = express();
 app.set('view engine', 'pug');
@@ -18,11 +18,15 @@ app.get('/', (req, res) => {
         tramData: [
             {
                 routeNumber: '70',
-                minutes: ['5', '10'],
+                minutes: ['1', '10'],
+                disruptions:
+                    'Lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
             },
             {
                 routeNumber: '75',
                 minutes: ['5', '10'],
+                disruptions:
+                    'Lorem loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem',
             },
         ],
     });

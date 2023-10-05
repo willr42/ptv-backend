@@ -100,7 +100,9 @@ main {
 
 .card-grid {
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
+    align-items: center;
 }
 
 .card {
@@ -113,6 +115,7 @@ main {
     border-radius: 0.25rem;
     background-color: rgba(17, 24, 39, 1);
     padding: 1.5rem;
+    max-width: 300px;
 }
 
 h2 {
@@ -140,4 +143,19 @@ ul li {
 
 ul li svg {
     margin-right: 5px;
+}
+
+hr {
+    margin: 1rem auto;
+    width: 80%;
+}
+
+.disruptions {
+    font-size: var(--font-size-sm);
+}
+
+@media (min-width: 700px) {
+    .card-grid {
+        flex-direction: row;
+    }
 }

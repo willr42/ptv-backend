@@ -12,7 +12,6 @@
         "module": "NodeNext" /* Specify what module code is generated. */,
         "rootDir": "src" /* Specify the root folder within your source files. */,
         "resolveJsonModule": true /* Enable importing .json files. */,
-        "allowImportingTsExtensions": true,
 
         /* JavaScript Support */
         "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,

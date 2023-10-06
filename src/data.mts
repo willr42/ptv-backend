@@ -1,8 +1,7 @@
 // Hardcode the route type, stop id, and route id.
 // Fetch departures.
 
-import apiHandler from './lib/apihandler.mts';
-import { type ApiDepartureData } from './lib/apitypes.mts';
+import apiHandler from './lib/apihandler.mjs';
 
 export type WatchedRoute = {
     routeId: string;

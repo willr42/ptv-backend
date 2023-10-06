@@ -1,5 +1,5 @@
-import { WatchedRoute } from './data.mts';
-import { possibleRouteTypes } from './lib/apitypes.mts';
+import { type WatchedRoute } from './data.mjs';
+import { possibleRouteTypes } from './lib/apitypes.mjs';
 
 const watchedRoutes: WatchedRoute[] = [
     {

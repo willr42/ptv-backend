@@ -13,10 +13,17 @@ app.use(express.static('public'));
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.get('/', async (req, res) => {
     const departureViewData = await getDepartureData(config.watchedRoutes);
-    console.log(departureViewData);
 
     res.render('index', {
         tramData: departureViewData,
+    });
+});
+
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.get('/view/update', async (req, res) => {
+    const newViewData = await getDepartureData(config.watchedRoutes);
+    res.render('cardgrid', {
+        tramData: newViewData,
     });
 });
 

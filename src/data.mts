@@ -17,7 +17,37 @@ type ProcessedDepartureData = {
     atPlatform: boolean;
 };
 
-export async function getNextThreeDepartures(watchedRoutes: WatchedRoute[]) {
+export async function getDepartureData(watchedRoutes: WatchedRoute[]) {
+    const nextThreeDepartures = await getNextThreeDepartures(watchedRoutes);
+    const departureViewData = [];
+    for (const route in nextThreeDepartures) {
+        if (Object.prototype.hasOwnProperty.call(nextThreeDepartures, route)) {
+            const departureArray = nextThreeDepartures[route];
+            const departure: {
+                routeNumber: string;
+                minutes: number[] | undefined;
+            } = {
+                routeNumber: '',
+                minutes: undefined,
+            };
+            departure.routeNumber = route;
+            departure.minutes = departureArray?.map((departure) => {
+                const now = new Date();
+                const timeDiffInMs =
+                    departure.scheduledDeparture.getTime() - now.getTime();
+                const timeDiffInMinutes = Math.floor(
+                    timeDiffInMs / (1000 * 60)
+                );
+                return timeDiffInMinutes;
+            });
+
+            departureViewData.push(departure);
+        }
+    }
+    return departureViewData;
+}
+
+async function getNextThreeDepartures(watchedRoutes: WatchedRoute[]) {
     const departures = await collateDepartures(watchedRoutes);
 
     for (const departure in departures) {

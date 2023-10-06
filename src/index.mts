@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
-import config from './config.mts';
-import { getDepartureData } from './data.mts';
+import config from './config.mjs';
+import { getDepartureData } from './data.mjs';
 
 const app = express();
 app.set('view engine', 'pug');
@@ -11,7 +11,7 @@ app.use(express.static('public'));
 
 // Async route handler - void return doesn't matter
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.get('/', async (req, res) => {
+app.get('/', async (_, res) => {
     const departureViewData = await getDepartureData(config.watchedRoutes);
 
     res.render('index', {
@@ -20,7 +20,7 @@ app.get('/', async (req, res) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.get('/view/update', async (req, res) => {
+app.get('/view/update', async (_, res) => {
     const newViewData = await getDepartureData(config.watchedRoutes);
     res.render('cardgrid', {
         tramData: newViewData,

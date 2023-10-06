@@ -1,12 +1,12 @@
 import crypto from 'node:crypto';
 import {
+    type ApiDepartureData,
+    type ApiDirectionData,
+    type ApiRouteData,
+    type ApiRouteTypeData,
+    type ApiStopData,
     type PtvApiResponse,
-    type RouteTypesInfo,
-    type RouteInfo,
-    type DepartureInfo,
-    type StopInfo,
-    type DirectionInfo,
-} from './apitypes.mts';
+} from './apitypes.mjs';
 
 function createApiUrl(input: string) {
     if (input.length === 0) {
@@ -56,14 +56,14 @@ async function customAuthedFetch<T>(url: URL) {
 
 async function getRouteTypes() {
     const routeTypesUrl = createApiUrl('/v3/route_types');
-    return await customAuthedFetch<PtvApiResponse<RouteTypesInfo[]>>(
+    return await customAuthedFetch<PtvApiResponse<ApiRouteTypeData[]>>(
         routeTypesUrl
     );
 }
 
 async function getRoutes() {
     const routeUrl = createApiUrl('/v3/routes');
-    return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiRouteData[]>>(routeUrl);
 }
 
 async function getRoute(routeId: string, routeType?: string) {
@@ -72,7 +72,7 @@ async function getRoute(routeId: string, routeType?: string) {
         routeUrl.searchParams.append('route_type', routeType);
     }
 
-    return await customAuthedFetch<PtvApiResponse<RouteInfo>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiRouteData>>(routeUrl);
 }
 
 async function searchRouteByName(routeName: string, routeType?: string) {
@@ -84,12 +84,13 @@ async function searchRouteByName(routeName: string, routeType?: string) {
         routeUrl.searchParams.append('route_type', routeType);
     }
 
-    return await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiRouteData>>(routeUrl);
 }
 
 async function getRouteByNumber(routeNumber: string) {
     const routeUrl = createApiUrl('/v3/routes');
-    const res = await customAuthedFetch<PtvApiResponse<RouteInfo[]>>(routeUrl);
+    const res =
+        await customAuthedFetch<PtvApiResponse<ApiRouteData[]>>(routeUrl);
     if (res != null) {
         const foundRoute = res.routes.filter(
             (route) => route.route_number === routeNumber
@@ -102,7 +103,7 @@ async function getAllStops(routeId: string, routeType: string) {
     const routeUrl = createApiUrl(
         `/v3/stops/route/${routeId}/route_type/${routeType}`
     );
-    return await customAuthedFetch<PtvApiResponse<StopInfo[]>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiStopData[]>>(routeUrl);
 }
 
 /**
@@ -112,7 +113,7 @@ async function getDeparturesForAllRoutes(routeType: string, stopId: string) {
     const routeUrl = createApiUrl(
         `/v3/departures/route_type/${routeType}/stop/${stopId}`
     );
-    return await customAuthedFetch<PtvApiResponse<DepartureInfo>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiDepartureData>>(routeUrl);
 }
 
 /**
@@ -130,12 +131,14 @@ async function getDeparturesForSpecificRoute(
     if (directionId != null) {
         routeUrl.searchParams.append('direction_id', directionId.toString());
     }
-    return await customAuthedFetch<PtvApiResponse<DepartureInfo[]>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiDepartureData[]>>(
+        routeUrl
+    );
 }
 
 async function getDirectionsOfRoute(routeId: number) {
     const routeUrl = createApiUrl(`/v3/directions/route/${routeId}`);
-    return await customAuthedFetch<PtvApiResponse<DirectionInfo>>(routeUrl);
+    return await customAuthedFetch<PtvApiResponse<ApiDirectionData>>(routeUrl);
 }
 
 const apiHandler = {

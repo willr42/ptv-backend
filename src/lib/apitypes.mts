@@ -26,7 +26,7 @@ const possibleRouteTypes = {
     nightBus: '4',
 };
 
-type RouteTypesInfo = {
+type ApiRouteTypeData = {
     route_type_name: string;
     route_type: number;
 };
@@ -34,7 +34,7 @@ type RouteTypesInfo = {
 /**
  * Type for responses returned by `/v3/routes`
  */
-type RouteInfo = {
+type ApiRouteData = {
     route_service_status: {
         description: string;
         timestamp: string;
@@ -50,7 +50,7 @@ type RouteInfo = {
 /**
  * Type for responses returned by `/v3/stops`
  */
-type StopInfo = {
+type ApiStopData = {
     disruption_ids: number[];
     stop_suburb: string;
     route_type: number;
@@ -68,7 +68,7 @@ type StopInfo = {
     };
 };
 
-type DepartureInfo = {
+type ApiDepartureData = {
     stop_id: number;
     route_id: number;
     run_id: number;
@@ -83,12 +83,21 @@ type DepartureInfo = {
     departure_sequence: number;
 };
 
+type ApiDirectionData = {
+    route_direction_description: string;
+    direction_id: number;
+    direction_name: string;
+    route_id: number;
+    route_type: number;
+};
+
 export type {
     PtvApiResponse,
-    RouteInfo,
-    RouteTypesInfo,
-    StopInfo,
-    DepartureInfo,
+    ApiRouteData,
+    ApiRouteTypeData,
+    ApiStopData,
+    ApiDepartureData,
+    ApiDirectionData,
 };
 
 export { possibleRouteTypes };

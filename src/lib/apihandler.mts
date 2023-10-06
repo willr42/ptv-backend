@@ -5,6 +5,7 @@ import {
     type RouteInfo,
     type DepartureInfo,
     type StopInfo,
+    type DirectionInfo,
 } from './apitypes.mts';
 
 function createApiUrl(input: string) {
@@ -120,12 +121,21 @@ async function getDeparturesForAllRoutes(routeType: string, stopId: string) {
 async function getDeparturesForSpecificRoute(
     routeType: string,
     stopId: string,
-    routeId: string
+    routeId: string,
+    directionId: string
 ) {
     const routeUrl = createApiUrl(
         `/v3/departures/route_type/${routeType}/stop/${stopId}/route/${routeId}`
     );
-    return await customAuthedFetch<PtvApiResponse<DepartureInfo>>(routeUrl);
+    if (directionId != null) {
+        routeUrl.searchParams.append('direction_id', directionId.toString());
+    }
+    return await customAuthedFetch<PtvApiResponse<DepartureInfo[]>>(routeUrl);
+}
+
+async function getDirectionsOfRoute(routeId: number) {
+    const routeUrl = createApiUrl(`/v3/directions/route/${routeId}`);
+    return await customAuthedFetch<PtvApiResponse<DirectionInfo>>(routeUrl);
 }
 
 const apiHandler = {
@@ -137,6 +147,7 @@ const apiHandler = {
     getAllStops,
     getDeparturesForAllRoutes,
     getDeparturesForSpecificRoute,
+    getDirectionsOfRoute,
 };
 
 export default apiHandler;

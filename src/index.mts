@@ -14,6 +14,8 @@ app.use(express.static('public'));
 app.get('/', async (_, res) => {
     const departureViewData = await getDepartureData(config.watchedRoutes);
 
+    console.log(_);
+
     res.render('index', {
         tramData: departureViewData,
     });

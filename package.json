@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "tsx ./src/index.mts",
-        "build": "pnpm tsc",
+        "build": "pnpm install && pnpm tsc",
         "start": "node build/index.mjs"
     },
     "keywords": [],

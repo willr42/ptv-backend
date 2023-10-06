@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "tsx ./src/index.mts",
         "build": "pnpm tsc",
-        "start": "pnpm run build && node build/index.mjs"
+        "start": "node build/index.mjs"
     },
     "keywords": [],
     "author": "",

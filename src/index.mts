@@ -7,7 +7,7 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
 
-// app.use(express.static('public'));
+app.use(express.static('public'));
 
 // Async route handler - void return doesn't matter
 // eslint-disable-next-line @typescript-eslint/no-misused-promises

@@ -11,10 +11,10 @@ app.set('views', 'src/views');
 
 // Async route handler - void return doesn't matter
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.get('/', async (_, res) => {
+app.get('/', async (req, res) => {
     const departureViewData = await getDepartureData(config.watchedRoutes);
 
-    console.log(_);
+    console.log('Request: ', req.ip);
 
     res.render('index', {
         tramData: departureViewData,

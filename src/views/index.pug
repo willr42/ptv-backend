@@ -7,6 +7,25 @@ html(lang="en")
     script(src="https://unpkg.com/htmx.org@1.9.6", integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni", crossorigin="anonymous")
     link(rel="stylesheet", href="style.css")
     link(rel="icon", href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>🚋</text></svg>")
+    meta(name="description", content="Track the trams I'm interested in.")
+
+    //- Google / Search Engine Tags
+    meta(itemprop="name", content="Tram Tracker")
+    meta(itemprop="description", content="Track the trams I'm interested in.")
+    meta(itemprop="image", content="")
+
+    //- Facebook Meta Tags
+    meta(property="og:url", content="https://willsptv.com")
+    meta(property="og:type", content="website")
+    meta(property="og:title", content="Tram Tracker")
+    meta(property="og:description", content="Track the trams I'm interested in.")
+    meta(property="og:image", content="")
+
+    //- Twitter Meta Tags
+    meta(name="twitter:card", content="summary_large_image")
+    meta(name="twitter:title", content="Tram Tracker")
+    meta(name="twitter:description", content="Track the trams I'm interested in.")
+    meta(name="twitter:image", content="")
   body
     main
       include cardgrid.pug

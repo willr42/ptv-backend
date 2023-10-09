@@ -1,4 +1,4 @@
-.card-grid(hx-get="/view/update" hx-trigger="every 30s" hx-swap="outerHTML")
+.card-grid(hx-get=`${updatePath}/view/update` hx-trigger="every 15s" hx-swap="outerHTML")
     each tram in tramData
       .card
         h2 Tram

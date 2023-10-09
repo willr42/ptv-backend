@@ -4,8 +4,8 @@
 import apiHandler from './lib/apihandler.mjs';
 
 export type WatchedRoute = {
-    routeId: string;
     routeNumber: string;
+    routeId: string;
     routeType: string;
     directionOfInterest: string;
     stopId: string;

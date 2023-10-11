@@ -17,7 +17,7 @@ app.get('/', async (_, res) => {
     );
 
     res.render('index', {
-        updatePath: '/',
+        updatePath: '',
         tramData: departureViewData,
     });
 });
